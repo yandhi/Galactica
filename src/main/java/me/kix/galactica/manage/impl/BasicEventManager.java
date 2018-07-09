@@ -3,6 +3,7 @@ package me.kix.galactica.manage.impl;
 import me.kix.galactica.event.Event;
 import me.kix.galactica.listener.Listener;
 import me.kix.galactica.manage.EventManager;
+import me.kix.galactica.manage.registry.ListenerRegistry;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,34 +14,33 @@ import java.util.Set;
  */
 public final class BasicEventManager implements EventManager {
 
-	private final Set<Listener> listeners = new HashSet<>();
+	private final ListenerRegistry registry = new ListenerRegistry();
 
 	@Override
 	public void register(Listener listener) {
-		listeners.add(listener);
+		registry.register(listener);
 	}
 
 	@Override
 	public void unregister(Listener listener) {
-		listeners.remove(listener);
+		registry.unregister(listener);
 	}
 
 	@Override
 	public void clear() {
-		listeners.clear();
+		registry.getListeners().clear();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public void dispatch(Event event) {
-		for (Listener listener : listeners) {
-			if (listener.getEvent().equals(event.getClass()))
-				listener.execute(event);
+		for (Listener listener : registry.getListeners().get(event.getClass())) {
+			listener.execute(event);
 		}
 	}
 
 	@Override
-	public Set<Listener> getListeners() {
-		return listeners;
+	public ListenerRegistry getRegistry() {
+		return registry;
 	}
 }

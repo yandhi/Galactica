@@ -2,6 +2,7 @@ package me.kix.galactica.manage;
 
 import me.kix.galactica.event.Event;
 import me.kix.galactica.listener.Listener;
+import me.kix.galactica.manage.registry.ListenerRegistry;
 
 import java.util.Set;
 
@@ -19,6 +20,6 @@ public interface EventManager {
 
 	void dispatch(Event event);
 
-	Set<Listener> getListeners();
+	ListenerRegistry getRegistry();
 
 }
