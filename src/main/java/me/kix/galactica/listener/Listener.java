@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  * @author Kix
  * @since 7/8/2018
  */
-public abstract class Listener<E extends Event> implements Executed {
+public abstract class Listener<E extends Event> implements Executed<E> {
 
 	private Class<E> event;
 
