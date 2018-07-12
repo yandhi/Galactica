@@ -34,8 +34,11 @@ public final class BasicEventManager implements EventManager {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void dispatch(Event event) {
-		for (Listener listener : registry.getListeners().get(event.getClass())) {
-			listener.execute(event);
+		if (registry.getListeners().get(event.getClass()) != null) {
+			Set<Listener> listenersFromEvent = registry.getListeners().get(event.getClass());
+			if (listenersFromEvent != null) {
+				listenersFromEvent.forEach(listener -> listener.execute(event));
+			}
 		}
 	}
 
